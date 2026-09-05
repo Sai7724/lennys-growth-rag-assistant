@@ -66,16 +66,7 @@ hallucinations, no unsafe rendering.
 - Single-command local ingestion: `python -m app.scripts.ingest`.
 - Automated `pytest` suite covering API routes, retrieval, and fallbacks.
 
-## 6. Explicit Out-of-Scope (Zero Extra Features Policy)
-
-| Excluded | Reason |
-| --- | --- |
-| User authentication / OAuth / multi-tenant role management | Single-user workspace context |
-| Voice/audio playback or transcription pipelines | Transcripts pre-downloaded via public repo |
-| Web search fallbacks / external internet data scraping | Grounded local retrieval only |
-| Billing, payments, third-party analytics | Not requested; would add scope creep |
-
-## 7. Key Technical Risks & Mitigations
+## 6. Key Technical Risks & Mitigations
 
 | Risk | Mitigation |
 | --- | --- |
@@ -85,7 +76,7 @@ hallucinations, no unsafe rendering.
 | **Ollama downtime / missing API keys** | Graceful SSE error events; provider hot-swap; documented fallback matrix (see architecture.md) |
 | **Empty pgvector results** | Strict fallback message; health endpoint reports DB status |
 
-## 8. Assumptions Log
+## 7. Assumptions Log
 
 1. Transcripts are **pre-downloaded** into `data/transcripts/` as `.txt`/`.md`
    files named `Episode Title - Guest Name.ext` (or with `Title:`/`Guest:`
@@ -99,7 +90,7 @@ hallucinations, no unsafe rendering.
 5. The similarity threshold (0.65) is a configurable product dial via
    `SIMILARITY_THRESHOLD`.
 
-## 9. Definition of Done
+## 8. Definition of Done
 
 - [x] File tree matches the spec (plus minimal plumbing: `globals.css`,
       `postcss.config.js`, `next.config.mjs`, `pytest.ini`, `data/transcripts/`).
