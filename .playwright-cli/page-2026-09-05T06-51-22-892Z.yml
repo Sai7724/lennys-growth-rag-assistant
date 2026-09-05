@@ -1,0 +1,38 @@
+- main [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: LG
+      - generic [ref=e6]:
+        - heading "Lenny Growth Assistant" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Grounded in podcast transcripts
+    - button "New chat" [ref=e10] [cursor=pointer]
+    - textbox "Search conversations" [ref=e17]:
+      - /placeholder: Search conversations…
+    - generic [ref=e19]:
+      - paragraph [ref=e23]: No conversations yet
+      - paragraph [ref=e24]: Ask a question to start a chat
+    - generic [ref=e25]:
+      - generic [ref=e26]: O
+      - paragraph [ref=e28]: ollama
+      - button "Settings" [ref=e29] [cursor=pointer]
+  - generic [ref=e35]:
+    - generic "Chat history" [ref=e36]:
+      - generic [ref=e37]:
+        - heading "What can I help with?" [level=1] [ref=e38]
+        - paragraph [ref=e39]: Grounded answers from 200+ hours of Lenny's Podcast
+        - generic [ref=e40]:
+          - button "How did Airbnb optimize early retention?" [ref=e41] [cursor=pointer]
+          - button "Which PLG loops worked for top SaaS companies?" [ref=e45] [cursor=pointer]
+          - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=e49] [cursor=pointer]
+          - button "Show me an HTML widget to track my North Star metric" [active] [ref=e53] [cursor=pointer]
+    - generic [ref=e58]:
+      - generic [ref=e59]:
+        - textbox "Chat input" [ref=e60]:
+          - /placeholder: Ask a growth question…
+        - generic [ref=e61]:
+          - generic [ref=e63]:
+            - button "ollama" [ref=e64] [cursor=pointer]
+            - generic [ref=e68]: ·
+            - button "Standard QA" [ref=e69] [cursor=pointer]
+          - button "Send message" [disabled] [ref=e73]
+      - paragraph [ref=e76]: Enter to send · Shift+Enter for new line · Grounded in transcripts (similarity ≥ 0.55)

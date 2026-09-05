@@ -1,0 +1,104 @@
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: LG
+        - generic [ref=e6]:
+          - heading "Lenny Growth Assistant" [level=1] [ref=e7]
+          - paragraph [ref=e8]: Grounded in podcast transcripts
+      - button "New chat" [ref=e10] [cursor=pointer]
+      - textbox "Search conversations" [ref=e17]:
+        - /placeholder: Search conversations…
+      - generic [ref=e18]:
+        - generic [ref=e19]: Today
+        - generic [ref=e20]:
+          - paragraph [ref=e24]: No conversations yet
+          - paragraph [ref=e25]: Ask a question to start a chat
+        - generic [ref=e26]:
+          - generic [ref=e27]: Yesterday
+          - generic [ref=e28]: No conversations
+        - generic [ref=e29]:
+          - generic [ref=e30]: Previous 7 Days
+          - generic [ref=e31]: No conversations
+        - generic [ref=e32]:
+          - generic [ref=e33]: Previous 30 Days
+          - generic [ref=e34]: No conversations
+      - generic [ref=e35]:
+        - generic [ref=e36]: O
+        - generic [ref=e37]:
+          - paragraph [ref=e38]: Ollama · llama3.2:3b
+          - paragraph [ref=e39]: Running locally
+        - button "Settings" [ref=e40] [cursor=pointer]
+    - generic [ref=e46]:
+      - generic [ref=e89]:
+        - heading "How did Airbnb optimize early retention?" [level=2] [ref=e90]
+        - generic [ref=e91]: Ollama · llama3.2:3b · Standard QA
+      - alert [ref=e88]: ⚠️ Session not ready. Please wait or refresh.
+      - generic "Chat history" [ref=e47]:
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: LG
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - paragraph [ref=e97]:
+                  - text: 👋 I'm the
+                  - strong [ref=e98]: Lenny Growth Assistant
+                  - text: — grounded in Lenny's Podcast transcripts.
+                - paragraph [ref=e99]:
+                  - text: Ask a growth question (e.g.
+                  - emphasis [ref=e100]: "\"How did Airbnb optimize early retention?\""
+                  - text: ), toggle the provider (Ollama local vs. cloud), or switch to
+                  - strong [ref=e101]: Ship 30 for 30
+                  - text: mode for a publication-ready essay. Ask for code or a widget to get an artifact in the right pane.
+              - button "Copy" [ref=e103] [cursor=pointer]
+          - generic [ref=e106]: How did Airbnb optimize early retention?
+          - generic [ref=e108]:
+            - generic [ref=e109]: LG
+            - generic [ref=e110]:
+              - paragraph [ref=e112]
+              - generic [ref=e113]:
+                - button "Copy" [ref=e114] [cursor=pointer]
+                - button "Regenerate" [ref=e117] [cursor=pointer]
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - textbox "Chat input" [ref=e71]:
+            - /placeholder: Follow up or ask a new question…
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - button "Attach files (coming soon)" [disabled] [ref=e74]
+              - generic [ref=e77]:
+                - button "Ollama" [expanded] [active] [ref=e78] [cursor=pointer]
+                - listbox [ref=e120]:
+                  - paragraph [ref=e121]: Model
+                  - option [selected] [ref=e122] [cursor=pointer]:
+                    - generic [ref=e123]:
+                      - paragraph [ref=e124]: Ollama
+                      - paragraph [ref=e125]: llama3.2:3b · $0, fully private
+                  - option [ref=e128] [cursor=pointer]:
+                    - generic [ref=e129]:
+                      - paragraph [ref=e130]: Gemini
+                      - paragraph [ref=e131]: gemini-2.0-flash · needs GEMINI_API_KEY
+                  - option [ref=e132] [cursor=pointer]:
+                    - generic [ref=e133]:
+                      - paragraph [ref=e134]: Grok
+                      - paragraph [ref=e135]: grok-3-mini · needs GROK_API_KEY
+                  - option [ref=e136] [cursor=pointer]:
+                    - generic [ref=e137]:
+                      - paragraph [ref=e138]: GLM
+                      - paragraph [ref=e139]: glm-4-flash · needs GLM_API_KEY
+                  - option [ref=e140] [cursor=pointer]:
+                    - generic [ref=e141]:
+                      - paragraph [ref=e142]: OpenAI
+                      - paragraph [ref=e143]: gpt-4o-mini · needs OPENAI_API_KEY
+                  - paragraph [ref=e145]: Skill
+                  - option [selected] [ref=e146] [cursor=pointer]:
+                    - generic [ref=e147]:
+                      - paragraph [ref=e148]: Standard QA
+                      - paragraph [ref=e149]: Grounded answers from transcripts
+                  - option [ref=e152] [cursor=pointer]:
+                    - generic [ref=e153]:
+                      - paragraph [ref=e154]: Ship 30 for 30
+                      - paragraph [ref=e155]: Publication-ready ~1,250-word essay
+            - button "Send message" [disabled] [ref=e83]
+        - paragraph [ref=e86]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.65)
+  - alert [ref=e87]

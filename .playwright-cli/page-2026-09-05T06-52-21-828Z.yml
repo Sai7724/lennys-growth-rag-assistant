@@ -1,0 +1,39 @@
+- main [ref=f1e2]:
+  - complementary [ref=f1e3]:
+    - generic [ref=f1e4]:
+      - generic [ref=f1e5]: LG
+      - generic [ref=f1e6]:
+        - heading "Lenny Growth Assistant" [level=1] [ref=f1e7]
+        - paragraph [ref=f1e8]: Grounded in podcast transcripts
+    - button "New chat" [ref=f1e10] [cursor=pointer]
+    - textbox "Search conversations" [ref=f1e17]:
+      - /placeholder: Search conversations…
+    - generic [ref=f1e19]:
+      - paragraph [ref=f1e23]: No conversations yet
+      - paragraph [ref=f1e24]: Ask a question to start a chat
+    - generic [ref=f1e25]:
+      - generic [ref=f1e26]: O
+      - paragraph [ref=f1e28]: ollama
+      - button "Settings" [ref=f1e29] [cursor=pointer]
+  - generic [ref=f1e35]:
+    - generic "Chat history" [ref=f1e36]:
+      - generic [ref=f1e37]:
+        - heading "What can I help with?" [level=1] [ref=f1e38]
+        - paragraph [ref=f1e39]: Grounded answers from 200+ hours of Lenny's Podcast
+        - generic [ref=f1e40]:
+          - button "How did Airbnb optimize early retention?" [ref=f1e41] [cursor=pointer]
+          - button "Which PLG loops worked for top SaaS companies?" [ref=f1e45] [cursor=pointer]
+          - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=f1e49] [cursor=pointer]
+          - button "Show me an HTML widget to track my North Star metric" [ref=f1e53] [cursor=pointer]
+    - generic [ref=f1e58]:
+      - generic [ref=f1e59]:
+        - textbox "Chat input" [active] [ref=f1e60]:
+          - /placeholder: Ask a growth question…
+          - text: Generate a simple HTML widget to track a north star metric
+        - generic [ref=f1e61]:
+          - generic [ref=f1e63]:
+            - button "ollama" [ref=f1e64] [cursor=pointer]
+            - generic [ref=f1e68]: ·
+            - button "Standard QA" [ref=f1e69] [cursor=pointer]
+          - button "Send message" [disabled] [ref=f1e73]
+      - paragraph [ref=f1e76]: Enter to send · Shift+Enter for new line · Grounded in transcripts (similarity ≥ 0.55)

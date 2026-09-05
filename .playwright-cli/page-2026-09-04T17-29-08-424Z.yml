@@ -1,0 +1,52 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: LG
+        - generic [ref=e6]:
+          - heading "Lenny Growth Assistant" [level=1] [ref=e7]
+          - paragraph [ref=e8]: Grounded in podcast transcripts
+      - button "New chat" [ref=e10] [cursor=pointer]
+      - textbox "Search conversations" [ref=e17]:
+        - /placeholder: Search conversations…
+      - generic [ref=e18]:
+        - generic [ref=e19]: Today
+        - generic [ref=e20]:
+          - paragraph [ref=e24]: No conversations yet
+          - paragraph [ref=e25]: Ask a question to start a chat
+        - generic [ref=e26]:
+          - generic [ref=e27]: Yesterday
+          - generic [ref=e28]: No conversations
+        - generic [ref=e29]:
+          - generic [ref=e30]: Previous 7 Days
+          - generic [ref=e31]: No conversations
+        - generic [ref=e32]:
+          - generic [ref=e33]: Previous 30 Days
+          - generic [ref=e34]: No conversations
+      - generic [ref=e35]:
+        - generic [ref=e36]: O
+        - generic [ref=e37]:
+          - paragraph [ref=e38]: Ollama · llama3.2:3b
+          - paragraph [ref=e39]: Running locally
+        - button "Settings" [ref=e40] [cursor=pointer]
+    - generic [ref=e46]:
+      - generic "Chat history" [ref=e47]:
+        - generic [ref=e48]:
+          - heading "What can I help with?" [level=1] [ref=e49]
+          - paragraph [ref=e50]: Grounded answers from 200+ hours of Lenny's Podcast
+          - generic [ref=e51]:
+            - button "How did Airbnb optimize early retention?" [ref=e52] [cursor=pointer]
+            - button "Which PLG loops worked for top SaaS companies?" [ref=e56] [cursor=pointer]
+            - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=e60] [cursor=pointer]
+            - button "Show me an HTML widget to track my North Star metric" [ref=e64] [cursor=pointer]
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - textbox "Chat input" [ref=e71]:
+            - /placeholder: Ask a growth question…
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - button "Attach files (coming soon)" [disabled] [ref=e74]
+              - button "Ollama" [ref=e78] [cursor=pointer]
+            - button "Send message" [disabled] [ref=e83]
+        - paragraph [ref=e86]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.65)
+  - alert [ref=e87]

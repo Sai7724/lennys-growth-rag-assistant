@@ -1,0 +1,44 @@
+- generic [active] [ref=f7e1]:
+  - main [ref=f7e2]:
+    - complementary [ref=f7e3]:
+      - generic [ref=f7e4]:
+        - generic [ref=f7e5]: LG
+        - generic [ref=f7e6]:
+          - heading "Lenny Growth Assistant" [level=1] [ref=f7e7]
+          - paragraph [ref=f7e8]: Grounded in podcast transcripts
+      - button "New chat" [ref=f7e10] [cursor=pointer]
+      - textbox "Search conversations" [ref=f7e17]:
+        - /placeholder: Search conversations…
+      - generic [ref=f7e19]:
+        - paragraph [ref=f7e23]: No conversations yet
+        - paragraph [ref=f7e24]: Ask a question to start a chat
+      - generic [ref=f7e25]:
+        - generic [ref=f7e26]: O
+        - generic [ref=f7e27]:
+          - paragraph [ref=f7e28]: ollama
+          - paragraph [ref=f7e29]: Model info unavailable
+        - button "Settings" [ref=f7e30] [cursor=pointer]
+    - generic [ref=f7e36]:
+      - generic "Chat history" [ref=f7e37]:
+        - generic [ref=f7e38]:
+          - heading "What can I help with?" [level=1] [ref=f7e39]
+          - paragraph [ref=f7e40]: Grounded answers from 200+ hours of Lenny's Podcast
+          - generic [ref=f7e41]:
+            - button "How did Airbnb optimize early retention?" [ref=f7e42] [cursor=pointer]
+            - button "Which PLG loops worked for top SaaS companies?" [ref=f7e46] [cursor=pointer]
+            - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=f7e50] [cursor=pointer]
+            - button "Show me an HTML widget to track my North Star metric" [ref=f7e54] [cursor=pointer]
+      - generic [ref=f7e59]:
+        - generic [ref=f7e60]:
+          - textbox "Chat input" [ref=f7e61]:
+            - /placeholder: Ask a growth question…
+          - generic [ref=f7e62]:
+            - generic [ref=f7e63]:
+              - button "Attach files (coming soon)" [disabled] [ref=f7e64]
+              - generic [ref=f7e67]:
+                - button "ollama" [ref=f7e69] [cursor=pointer]
+                - generic [ref=f7e73]: ·
+                - button "Standard QA" [ref=f7e75] [cursor=pointer]
+            - button "Send message" [disabled] [ref=f7e79]
+        - paragraph [ref=f7e82]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.55)
+  - alert [ref=f7e83]

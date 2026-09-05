@@ -1,0 +1,92 @@
+- generic [ref=f1e1]:
+  - main [ref=f1e2]:
+    - complementary [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - generic [ref=f1e5]: LG
+        - generic [ref=f1e6]:
+          - heading "Lenny Growth Assistant" [level=1] [ref=f1e7]
+          - paragraph [ref=f1e8]: Grounded in podcast transcripts
+      - button "New chat" [active] [ref=f1e10] [cursor=pointer]
+      - textbox "Search conversations" [ref=f1e17]:
+        - /placeholder: Search conversations…
+      - generic [ref=f1e83]:
+        - generic [ref=f1e84]: Today
+        - generic [ref=f1e85]:
+          - button [ref=f1e213] [cursor=pointer]:
+            - generic [ref=f1e89]:
+              - paragraph [ref=f1e90]: How did Airbnb optimize early retention?
+              - paragraph [ref=f1e91]: 2 min ago
+          - button [ref=f1e214] [cursor=pointer]:
+            - generic [ref=f1e97]:
+              - paragraph [ref=f1e98]: Show me an HTML widget to track my North Star metric
+              - paragraph [ref=f1e99]: 4 min ago
+          - button [ref=f1e215] [cursor=pointer]:
+            - generic [ref=f1e105]:
+              - paragraph [ref=f1e106]: Draft a Ship 30 for 30 essay on pricing tiers
+              - paragraph [ref=f1e107]: 4 min ago
+          - button [ref=f1e216] [cursor=pointer]:
+            - generic [ref=f1e113]:
+              - paragraph [ref=f1e114]: Show me an HTML widget to track my North Star metric
+              - paragraph [ref=f1e115]: 4 min ago
+          - button [ref=f1e217] [cursor=pointer]:
+            - generic [ref=f1e121]:
+              - paragraph [ref=f1e122]: Which PLG loops worked for top SaaS companies?
+              - paragraph [ref=f1e123]: 10 min ago
+          - button [ref=f1e218] [cursor=pointer]:
+            - generic [ref=f1e129]:
+              - paragraph [ref=f1e130]: New chat
+              - paragraph [ref=f1e131]: 17 min ago
+          - button [ref=f1e219] [cursor=pointer]:
+            - generic [ref=f1e137]:
+              - paragraph [ref=f1e138]: New chat
+              - paragraph [ref=f1e139]: 19 min ago
+          - button [ref=f1e220] [cursor=pointer]:
+            - generic [ref=f1e145]:
+              - paragraph [ref=f1e146]: New chat
+              - paragraph [ref=f1e147]: 20 min ago
+          - button [ref=f1e221] [cursor=pointer]:
+            - generic [ref=f1e153]:
+              - paragraph [ref=f1e154]: New chat
+              - paragraph [ref=f1e155]: 20 min ago
+          - button [ref=f1e222] [cursor=pointer]:
+            - generic [ref=f1e161]:
+              - paragraph [ref=f1e162]: New chat
+              - paragraph [ref=f1e163]: 24 min ago
+          - button [ref=f1e223] [cursor=pointer]:
+            - generic [ref=f1e169]:
+              - paragraph [ref=f1e170]: New chat
+              - paragraph [ref=f1e171]: 26 min ago
+          - button [ref=f1e224] [cursor=pointer]:
+            - generic [ref=f1e177]:
+              - paragraph [ref=f1e178]: New chat
+              - paragraph [ref=f1e179]: 28 min ago
+      - generic [ref=f1e25]:
+        - generic [ref=f1e26]: O
+        - generic [ref=f1e27]:
+          - paragraph [ref=f1e28]: Ollama · fredrezones55/Qwen3.5-Uncensored-HauhauCS-Aggressive:4b
+          - paragraph [ref=f1e29]: Running locally
+        - button "Settings" [ref=f1e30] [cursor=pointer]
+    - generic [ref=f1e36]:
+      - generic "Chat history" [ref=f1e37]:
+        - generic [ref=f1e38]:
+          - heading "What can I help with?" [level=1] [ref=f1e225]
+          - paragraph [ref=f1e226]: Grounded answers from 200+ hours of Lenny's Podcast
+          - generic [ref=f1e227]:
+            - button "How did Airbnb optimize early retention?" [ref=f1e228] [cursor=pointer]
+            - button "Which PLG loops worked for top SaaS companies?" [ref=f1e232] [cursor=pointer]
+            - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=f1e236] [cursor=pointer]
+            - button "Show me an HTML widget to track my North Star metric" [ref=f1e240] [cursor=pointer]
+      - generic [ref=f1e59]:
+        - generic [ref=f1e60]:
+          - textbox "Chat input" [ref=f1e61]:
+            - /placeholder: Ask a growth question…
+          - generic [ref=f1e62]:
+            - generic [ref=f1e63]:
+              - button "Attach files (coming soon)" [disabled] [ref=f1e64]
+              - generic [ref=f1e67]:
+                - button "Ollama · Qwen3.5:4b" [ref=f1e211] [cursor=pointer]
+                - generic [ref=f1e73]: ·
+                - button "Standard QA" [ref=f1e75] [cursor=pointer]
+            - button "Send message" [disabled] [ref=f1e79]
+        - paragraph [ref=f1e82]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.55)
+  - alert [ref=f1e212]

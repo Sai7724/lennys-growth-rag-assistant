@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #0a0a0a;
+}
+
+/* Subtle scrollbars that fit the dark theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f3f transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #3f3f3f;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background-color: rgba(59, 130, 246, 0.35);
+}

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<!--
+  North Star Metric Widget
+  ------------------------
+  Self-contained HTML widget to track a single North Star metric:
+  current value, delta vs last week, goal progress ring, and a
+  12-week trend sparkline with goal line.
+
+  - No external dependencies (vanilla JS + inline SVG)
+  - State persists to localStorage
+  - Edit mode, metric presets, and a "simulate" button to add a week
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Star Metric — Widget</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%230e131b' stroke='%23f5b93c' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f5b93c'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #07090d;
+    --card: #0e131b;
+    --card-2: #121824;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --text: #e8ecf3;
+    --text-dim: #8b94a7;
+    --text-faint: #5c6474;
+    --accent: #f5b93c;            /* north-star amber */
+    --accent-glow: rgba(245, 185, 60, 0.28);
+    --accent-soft: rgba(245, 185, 60, 0.10);
+    --up: #4ade80;
+    --down: #f87171;
+    --mono: "SF Mono", ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background:
+      radial-gradient(1100px 600px at 50% -10%, rgba(245, 185, 60, 0.07), transparent 60%),
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.05) 1px, transparent 0),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.04) 1px, transparent 0),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.04) 1px, transparent 0),
+      var(--bg);
+    background-size: auto, 26px 26px, 26px 26px, 26px 26px, auto;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Widget card ---------- */
+  .widget {
+    width: 100%;
+    max-width: 680px;
+    background: linear-gradient(180deg, var(--card-2) 0%, var(--card) 100%);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.04) inset,
+      0 24px 60px -24px rgba(0,0,0,0.7);
+    overflow: hidden;
+  }
+
+  .widget-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px 0;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-glow);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+    70%  { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .metric-name {
+    margin-top: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .metric-desc {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 46ch;
+  }
+
+  .head-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  select {
+    appearance: none;
+    background: var(--card-2) url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b94a7' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: var(--sans);
+    padding: 7px 28px 7px 10px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  select:hover { border-color: var(--line-strong); color: var(--text); }
+  select option { background: var(--card); color: var(--text); }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-dim);
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { color: var(--text); border-color: var(--line-strong); }
+  .btn-accent {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #14100a;
+  }
+  .btn-accent:hover { background: #ffcb5e; border-color: #ffcb5e; color: #14100a; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 24px 22px 20px;
+  }
+
+  .hero-value { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+
+  .big-number {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 34px var(--accent-glow);
+    background: linear-gradient(180deg, #fff6dd 0%, var(--accent) 130%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .unit {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--text-dim);
+  }
+
+  .delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+  .delta.up   { color: var(--up);   background: rgba(74, 222, 128, 0.10); border: 1px solid rgba(74, 222, 128, 0.25); }
+  .delta.down { color: var(--down); background: rgba(248, 113, 113, 0.10); border: 1px solid rgba(248, 113, 113, 0.25); }
+  .delta.flat { color: var(--text-dim); background: rgba(139, 148, 167, 0.10); border: 1px solid var(--line); }
+
+  .compare-line {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .compare-line b { color: var(--text-dim); font-weight: 600; }
+
+  /* Progress ring */
+  .ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+  .ring {
+    position: relative;
+    width: 118px; height: 118px;
+  }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring .track { stroke: rgba(255,255,255,0.07); }
+  .ring .fill {
+    stroke: var(--accent);
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+    transition: stroke-dashoffset 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ring-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .ring-pct {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .ring-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+
+  .status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .status.on-track   { color: var(--up);   background: rgba(74, 222, 128, 0.10); border: 1px solid rgba(74, 222, 128, 0.22); }
+  .status.behind     { color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(245, 185, 60, 0.28); }
+  .status.reached    { color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(245, 185, 60, 0.28); }
+  .status.down       { color: var(--down); background: rgba(248, 113, 113, 0.10); border: 1px solid rgba(248, 113, 113, 0.22); }
+
+  /* ---------- Sparkline ---------- */
+  .chart {
+    margin: 0 22px 6px;
+    padding: 18px 4px 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  .chart-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .chart-title { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+  .chart-legend { display: flex; gap: 14px; font-size: 11px; color: var(--text-dim); }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-item .swatch { width: 16px; height: 2px; border-radius: 2px; }
+  .swatch.series { background: var(--accent); box-shadow: 0 0 6px var(--accent-glow); }
+  .swatch.goal   { background: repeating-linear-gradient(90deg, var(--text-faint) 0 4px, transparent 4px 7px); }
+
+  .sparkline { display: block; width: 100%; height: auto; }
+  .sparkline .grid-line { stroke: rgba(255,255,255,0.05); stroke-dasharray: 3 5; }
+  .sparkline .axis-label { fill: var(--text-faint); font-size: 10px; font-family: var(--mono); }
+  .sparkline .goal-line { stroke: var(--text-faint); stroke-dasharray: 5 5; }
+  .sparkline .goal-label { fill: var(--text-faint); font-size: 10px; font-family: var(--mono); }
+  .sparkline .series-line { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--accent-glow)); }
+  .sparkline .series-area { fill: url(#areaGrad); }
+  .sparkline .point { fill: var(--card); stroke: var(--accent); stroke-width: 2; }
+  .sparkline .point-last {
+    fill: var(--accent);
+    stroke: var(--card);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+  }
+  .sparkline .point-value { fill: var(--accent); font-size: 12px; font-weight: 700; font-family: var(--mono); }
+
+  /* ---------- Edit mode ---------- */
+  .edit-panel {
+    display: none;
+    margin: 0 22px 6px;
+    padding: 16px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+  }
+  .edit-panel.open { display: block; }
+
+  .edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 5px;
+  }
+  .field input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus { border-color: var(--accent); }
+  .field.full { grid-column: 1 / -1; }
+
+  .edit-actions {
+    display: flex; gap: 8px; margin-top: 14px;
+  }
+
+  /* ---------- Footer ---------- */
+  .widget-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 22px 18px;
+    border-top: 1px solid var(--line);
+    margin-top: 12px;
+  }
+
+  .foot-note {
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .foot-note b { color: var(--text-dim); font-weight: 600; }
+
+  .foot-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+  /* ---------- Toast ---------- */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--card-2);
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 10;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 540px) {
+    .hero { grid-template-columns: 1fr; }
+    .ring-wrap { flex-direction: row; justify-content: flex-start; gap: 18px; }
+    .big-number { font-size: 52px; }
+    .edit-grid { grid-template-columns: 1fr; }
+    .widget-foot { flex-direction: column; align-items: flex-start; }
+    .foot-actions { width: 100%; }
+    .foot-actions .btn { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="widget" id="widget">
+  <!-- Header -->
+  <div class="widget-head">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>North Star Metric</div>
+      <h1 class="metric-name" id="metricName">Weekly Activated Users</h1>
+      <p class="metric-desc" id="metricDesc">The single metric that best captures the core value we deliver each week.</p>
+    </div>
+    <div class="head-actions">
+      <select id="presetSelect" aria-label="Metric preset">
+        <option value="users" selected>Preset: Activated Users</option>
+        <option value="messages">Preset: Messages Sent</option>
+        <option value="orders">Preset: Completed Orders</option>
+        <option value="wau">Preset: Weekly Active Users</option>
+      </select>
+      <button class="btn" id="editBtn" type="button">Edit</button>
+    </div>
+  </div>
+
+  <!-- Hero: value + ring -->
+  <div class="hero">
+    <div>
+      <div class="hero-value">
+        <span class="big-number" id="bigNumber">0</span>
+        <span class="unit" id="unitLabel">users</span>
+        <span class="delta up" id="deltaChip">▲ +5.1%</span>
+      </div>
+      <p class="compare-line" id="compareLine">vs <b>671</b> last week · <span id="periodLabel">Week of Sep 1 – Sep 7</span></p>
+    </div>
+
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg viewBox="0 0 118 118" aria-hidden="true">
+          <circle class="track" cx="59" cy="59" r="52" fill="none" stroke-width="9"/>
+          <circle class="fill" id="ringFill" cx="59" cy="59" r="52" fill="none" stroke-width="9"
+                  stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+        </svg>
+        <div class="ring-center">
+          <span class="ring-pct" id="ringPct">0%</span>
+          <span class="ring-label">of goal</span>
+        </div>
+      </div>
+      <span class="status on-track" id="statusChip">On track</span>
+    </div>
+  </div>
+
+  <!-- Sparkline -->
+  <div class="chart">
+    <div class="chart-head">
+      <span class="chart-title">12-Week Trend</span>
+      <span class="chart-legend">
+        <span class="legend-item"><span class="swatch series"></span>Weekly value</span>
+        <span class="legend-item"><span class="swatch goal"></span>Goal</span>
+      </span>
+    </div>
+    <svg class="sparkline" id="sparkline" viewBox="0 0 620 180" role="img" aria-label="Trend chart of the North Star metric over 12 weeks"></svg>
+  </div>
+
+  <!-- Edit panel -->
+  <div class="edit-panel" id="editPanel">
+    <div class="edit-grid">
+      <div class="field full">
+        <label for="inName">Metric name</label>
+        <input id="inName" type="text" value="Weekly Activated Users" maxlength="40">
+      </div>
+      <div class="field">
+        <label for="inValue">Current value</label>
+        <input id="inValue" type="number" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="inGoal">Goal</label>
+        <input id="inGoal" type="number" min="1" step="1">
+      </div>
+      <div class="field full">
+        <label for="inUnit">Unit</label>
+        <input id="inUnit" type="text" value="users" maxlength="16">
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="btn btn-accent" id="saveBtn" type="button">Save changes</button>
+      <button class="btn" id="cancelBtn" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="widget-foot">
+    <span class="foot-note">Projected to reach goal in <b id="weeksToGoal">~4 weeks</b> · data saved locally</span>
+    <div class="foot-actions">
+      <button class="btn" id="simulateBtn" type="button">Simulate next week</button>
+      <button class="btn" id="resetBtn" type="button">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- State ---------- */
+  var STORAGE_KEY = "north-star-widget-v1";
+
+  var PRESETS = {
+    users: {
+      name: "Weekly Activated Users",
+      desc: "People who completed their first meaningful action this week.",
+      unit: "users",
+      goal: 800,
+      series: [412, 438, 465, 491, 522, 540, 566, 589, 612, 640, 671, 705]
+    },
+    messages: {
+      name: "Messages Sent",
+      desc: "The total number of messages delivered to connected teammates.",
+      unit: "msgs",
+      goal: 25000,
+      series: [15400, 16210, 17150, 16980, 18440, 19620, 20510, 21290, 21980, 22840, 23710, 24890]
+    },
+    orders: {
+      name: "Completed Orders",
+      desc: "Paid orders delivered without issue — the moment a customer gets value.",
+      unit: "orders",
+      goal: 1500,
+      series: [820, 860, 905, 942, 968, 1015, 1060, 1098, 1144, 1190, 1248, 1312]
+    },
+    wau: {
+      name: "Weekly Active Users",
+      desc: "Unique users who engaged with the product at least once this week.",
+      unit: "users",
+      goal: 10000,
+      series: [6100, 6380, 6590, 6810, 7100, 7360, 7580, 7890, 8120, 8460, 8790, 9120]
+    }
+  };
+
+  var DEFAULT_STATE = {
+    name: PRESETS.users.name,
+    desc: PRESETS.users.desc,
+    unit: PRESETS.users.unit,
+    goal: PRESETS.users.goal,
+    series: PRESETS.users.series.slice(),
+    preset: "users"
+  };
+
+  var state = loadState();
+  var prevDisplayValue = null;
+
+  /* ---------- DOM refs ---------- */
+  var el = {
+    metricName: document.getElementById("metricName"),
+    metricDesc: document.getElementById("metricDesc"),
+    unitLabel: document.getElementById("unitLabel"),
+    bigNumber: document.getElementById("bigNumber"),
+    deltaChip: document.getElementById("deltaChip"),
+    compareLine: document.getElementById("compareLine"),
+    periodLabel: document.getElementById("periodLabel"),
+    ringFill: document.getElementById("ringFill"),
+    ringPct: document.getElementById("ringPct"),
+    statusChip: document.getElementById("statusChip"),
+    sparkline: document.getElementById("sparkline"),
+    weeksToGoal: document.getElementById("weeksToGoal"),
+    presetSelect: document.getElementById("presetSelect"),
+    editBtn: document.getElementById("editBtn"),
+    editPanel: document.getElementById("editPanel"),
+    inName: document.getElementById("inName"),
+    inValue: document.getElementById("inValue"),
+    inGoal: document.getElementById("inGoal"),
+    inUnit: document.getElementById("inUnit"),
+    saveBtn: document.getElementById("saveBtn"),
+    cancelBtn: document.getElementById("cancelBtn"),
+    simulateBtn: document.getElementById("simulateBtn"),
+    resetBtn: document.getElementById("resetBtn"),
+    toast: document.getElementById("toast")
+  };
+
+  /* ---------- Helpers ---------- */
+  function fmt(n) {
+    return Math.round(n).toLocaleString("en-US");
+  }
+
+  function pctChange(cur, prev) {
+    if (!prev) return 0;
+    return (cur - prev) / prev * 100;
+  }
+
+  function currentWeekRange() {
+    var now = new Date();
+    var dow = (now.getDay() + 6) % 7;          // Monday = 0
+    var monday = new Date(now);
+    monday.setDate(now.getDate() - dow);
+    var sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    var opts = { month: "short", day: "numeric" };
+    return monday.toLocaleDateString("en-US", opts) + " – " + sunday.toLocaleDateString("en-US", opts);
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      el.toast.classList.remove("show");
+    }, 2200);
+  }
+
+  /* ---------- Render ---------- */
+  function render(animate) {
+    var series = state.series;
+    var current = series[series.length - 1];
+    var prev = series.length > 1 ? series[series.length - 2] : current;
+    var delta = pctChange(current, prev);
+    var goal = state.goal;
+    var pct = Math.min(current / goal * 100, 100);
+    var circumference = 2 * Math.PI * 52;
+
+    // Header
+    el.metricName.textContent = state.name;
+    el.metricDesc.textContent = state.desc;
+    el.unitLabel.textContent = state.unit;
+    el.periodLabel.textContent = "Week of " + currentWeekRange();
+
+    // Big number (count-up)
+    var startVal = animate && prevDisplayValue != null ? prevDisplayValue : 0;
+    prevDisplayValue = current;
+    countUp(el.bigNumber, startVal, current, 900);
+
+    // Delta chip
+    var deltaClass = delta > 0.05 ? "up" : (delta < -0.05 ? "down" : "flat");
+    var deltaArrow = delta > 0.05 ? "▲" : (delta < -0.05 ? "▼" : "•");
+    el.deltaChip.className = "delta " + deltaClass;
+    el.deltaChip.textContent = deltaArrow + " " + (Math.abs(delta) >= 0.05 ? Math.abs(delta).toFixed(1) + "%" : "0.0%");
+
+    // Compare line
+    el.compareLine.innerHTML = "vs <b>" + fmt(prev) + "</b> last week · <span id='periodLabel'>Week of " + currentWeekRange() + "</span>";
+
+    // Ring
+    el.ringFill.style.strokeDashoffset = (circumference * (1 - pct / 100)).toFixed(2);
+    animatePct(el.ringPct, pct);
+
+    // Status + projection
+    var status = paceStatus();
+    el.statusChip.className = "status " + status.cls;
+    el.statusChip.textContent = status.label;
+    el.weeksToGoal.textContent = status.projection;
+
+    // Sparkline
+    renderSparkline();
+
+    saveState();
+  }
+
+  function paceStatus() {
+    var series = state.series;
+    var current = series[series.length - 1];
+    var goal = state.goal;
+
+    if (current >= goal) {
+      return { cls: "reached", label: "Goal reached 🎯", projection: "goal achieved" };
+    }
+
+    // Average weekly gain over the last 4 weeks
+    var window = series.slice(-5);
+    var gain = (window[window.length - 1] - window[0]) / (window.length - 1);
+
+    if (gain <= 0) {
+      return { cls: "down", label: "Trending down", projection: "not on pace" };
+    }
+
+    var weeksLeft = Math.max(1, Math.ceil((goal - current) / gain));
+    if (weeksLeft <= 12) {
+      return { cls: "on-track", label: "On track", projection: "~" + weeksLeft + " week" + (weeksLeft > 1 ? "s" : "") };
+    }
+    return { cls: "behind", label: "Behind pace", projection: "~" + weeksLeft + " weeks away" };
+  }
+
+  /* ---------- Sparkline ---------- */
+  function renderSparkline() {
+    var series = state.series;
+    var goal = state.goal;
+    var W = 620, H = 180;
+    var padL = 8, padR = 46, padT = 14, padB = 24;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var maxVal = Math.max.apply(null, series.concat([goal])) * 1.08;
+    var minVal = Math.min.apply(null, series) * 0.92;
+    if (minVal < 0) minVal = 0;
+    var range = maxVal - minVal || 1;
+
+    function x(i) { return padL + (i / (series.length - 1)) * plotW; }
+    function y(v) { return padT + (1 - (v - minVal) / range) * plotH; }
+
+    var linePts = series.map(function (v, i) { return x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(" ");
+    var areaPts = padL + "," + (padT + plotH).toFixed(1) + " " + linePts + " " + padR + "," + (padT + plotH).toFixed(1);
+    var goalY = y(goal);
+
+    var labels = "";
+    for (var i = 0; i < series.length; i += 2) {
+      labels += '<text class="axis-label" x="' + x(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">W' + (i + 1) + '</text>';
+    }
+
+    var grid = "";
+    [0.25, 0.5, 0.75].forEach(function (f) {
+      var gy = padT + (1 - f) * plotH;
+      grid += '<line class="grid-line" x1="' + padL + '" y1="' + gy.toFixed(1) + '" x2="' + (padL + plotW) + '" y2="' + gy.toFixed(1) + '"/>';
+    });
+
+    // Y-axis min/max labels
+    var yLabels =
+      '<text class="axis-label" x="' + padL + '" y="' + (padT - 5) + '">' + fmt(maxVal) + '</text>' +
+      '<text class="axis-label" x="' + padL + '" y="' + (padT + plotH + 14) + '">' + fmt(minVal) + '</text>';
+
+    // Points
+    var pts = "";
+    for (var j = 0; j < series.length; j++) {
+      var cls = (j === series.length - 1) ? "point-last" : "point";
+      pts += '<circle class="' + cls + '" cx="' + x(j).toFixed(1) + '" cy="' + y(series[j]).toFixed(1) + '" r="' + (j === series.length - 1 ? 5 : 3) + '">' +
+             '<title>Week ' + (j + 1) + ': ' + fmt(series[j]) + '</title></circle>';
+    }
+
+    // Last value label
+    var lastValLabel =
+      '<text class="point-value" x="' + (padL + plotW + 8) + '" y="' + (y(series[series.length - 1]) + 4).toFixed(1) + '">' +
+      fmt(series[series.length - 1]) + '</text>';
+
+    el.sparkline.innerHTML =
+      '<defs>' +
+      '<linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="#f5b93c" stop-opacity="0.22"/>' +
+      '<stop offset="100%" stop-color="#f5b93c" stop-opacity="0"/>' +
+      '</linearGradient>' +
+      '</defs>' +
+      grid +
+      yLabels +
+      '<line class="goal-line" x1="' + padL + '" y1="' + goalY.toFixed(1) + '" x2="' + (padL + plotW) + '" y2="' + goalY.toFixed(1) + '"/>' +
+      '<text class="goal-label" x="' + (padL + plotW + 6) + '" y="' + (goalY - 5).toFixed(1) + '">Goal ' + fmt(goal) + '</text>' +
+      '<polygon class="series-area" points="' + areaPts + '"/>' +
+      '<polyline class="series-line" points="' + linePts + '"/>' +
+      pts +
+      lastValLabel +
+      labels;
+  }
+
+  /* ---------- Animations ---------- */
+  function countUp(node, from, to, duration) {
+    var start = performance.now();
+    function frame(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);   // easeOutCubic
+      node.textContent = fmt(from + (to - from) * eased);
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function animatePct(node, to) {
+    var start = performance.now();
+    var from = 0;
+    var duration = 1000;
+    function frame(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      node.textContent = Math.round(from + (to - from) * eased) + "%";
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- Persistence ---------- */
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        if (s && Array.isArray(s.series) && s.series.length >= 2 && s.goal > 0) {
+          return s;
+        }
+      }
+    } catch (e) { /* ignore */ }
+    return JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ---------- Actions ---------- */
+  function applyPreset(key) {
+    var p = PRESETS[key];
+    if (!p) return;
+    state = {
+      name: p.name, desc: p.desc, unit: p.unit, goal: p.goal,
+      series: p.series.slice(), preset: key
+    };
+    prevDisplayValue = null;
+    render(true);
+    toast("Preset loaded: " + p.name);
+  }
+
+  function simulateWeek() {
+    var series = state.series;
+    var last = series[series.length - 1];
+    // Random weekly delta between -4% and +11%, biased slightly positive
+    var change = 1 + (Math.random() * 0.15 - 0.04);
+    var next = Math.max(1, Math.round(last * change));
+    series.push(next);
+    if (series.length > 12) series.shift();
+    prevDisplayValue = last;
+    render(true);
+    toast("Week simulated: " + fmt(next) + " " + state.unit);
+  }
+
+  function openEdit() {
+    el.inName.value = state.name;
+    el.inValue.value = Math.round(state.series[state.series.length - 1]);
+    el.inGoal.value = state.goal;
+    el.inUnit.value = state.unit;
+    el.editPanel.classList.add("open");
+    el.editBtn.textContent = "Close";
+    el.inName.focus();
+  }
+
+  function closeEdit() {
+    el.editPanel.classList.remove("open");
+    el.editBtn.textContent = "Edit";
+  }
+
+  function saveEdit() {
+    var name = el.inName.value.trim();
+    var value = parseFloat(el.inValue.value);
+    var goal = parseFloat(el.inGoal.value);
+    var unit = el.inUnit.value.trim();
+
+    if (!name) { toast("Metric name can't be empty"); return; }
+    if (isNaN(value) || value < 0) { toast("Enter a valid current value"); return; }
+    if (isNaN(goal) || goal <= 0) { toast("Enter a valid goal"); return; }
+    if (!unit) unit = "units";
+
+    var series = state.series.slice();
+    series[series.length - 1] = Math.round(value);
+
+    state.name = name;
+    state.desc = "Your custom North Star metric — updated manually.";
+    state.unit = unit;
+    state.goal = Math.round(goal);
+    state.series = series;
+    state.preset = "custom";
+
+    closeEdit();
+    prevDisplayValue = null;
+    render(true);
+    toast("Changes saved");
+  }
+
+  function resetAll() {
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    prevDisplayValue = null;
+    el.presetSelect.value = "users";
+    closeEdit();
+    render(true);
+    toast("Reset to default");
+  }
+
+  /* ---------- Events ---------- */
+  el.presetSelect.addEventListener("change", function () {
+    applyPreset(el.presetSelect.value);
+  });
+
+  el.editBtn.addEventListener("click", function () {
+    if (el.editPanel.classList.contains("open")) closeEdit();
+    else openEdit();
+  });
+  el.cancelBtn.addEventListener("click", closeEdit);
+  el.saveBtn.addEventListener("click", saveEdit);
+  el.simulateBtn.addEventListener("click", simulateWeek);
+  el.resetBtn.addEventListener("click", resetAll);
+
+  el.inName.addEventListener("keydown", function (e) { if (e.key === "Enter") saveEdit(); });
+  el.inValue.addEventListener("keydown", function (e) { if (e.key === "Enter") saveEdit(); });
+  el.inGoal.addEventListener("keydown", function (e) { if (e.key === "Enter") saveEdit(); });
+  el.inUnit.addEventListener("keydown", function (e) { if (e.key === "Enter") saveEdit(); });
+
+  /* ---------- Init ---------- */
+  el.presetSelect.value = state.preset || "custom";
+  render(true);
+})();
+</script>
+</body>
+</html>

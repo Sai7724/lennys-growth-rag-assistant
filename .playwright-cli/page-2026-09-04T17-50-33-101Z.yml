@@ -1,0 +1,102 @@
+- generic [ref=f1e1]:
+  - main [ref=f1e2]:
+    - complementary [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - generic [ref=f1e5]: LG
+        - generic [ref=f1e6]:
+          - heading "Lenny Growth Assistant" [level=1] [ref=f1e7]
+          - paragraph [ref=f1e8]: Grounded in podcast transcripts
+      - button "New chat" [ref=f1e10] [cursor=pointer]
+      - textbox "Search conversations" [ref=f1e17]:
+        - /placeholder: Search conversations…
+      - generic [ref=f1e83]:
+        - generic [ref=f1e84]: Today
+        - generic [ref=f1e85]:
+          - button [ref=f1e86] [cursor=pointer]:
+            - generic [ref=f1e89]:
+              - paragraph [ref=f1e90]: How did Airbnb optimize early retention?
+              - paragraph [ref=f1e91]: 1 min ago
+          - button [ref=f1e94] [cursor=pointer]:
+            - generic [ref=f1e97]:
+              - paragraph [ref=f1e98]: Show me an HTML widget to track my North Star metric
+              - paragraph [ref=f1e99]: 3 min ago
+          - button [active] [ref=f1e102] [cursor=pointer]:
+            - generic [ref=f1e105]:
+              - paragraph [ref=f1e106]: Draft a Ship 30 for 30 essay on pricing tiers
+              - paragraph [ref=f1e107]: 3 min ago
+          - button [ref=f1e110] [cursor=pointer]:
+            - generic [ref=f1e113]:
+              - paragraph [ref=f1e114]: Show me an HTML widget to track my North Star metric
+              - paragraph [ref=f1e115]: 3 min ago
+          - button [ref=f1e118] [cursor=pointer]:
+            - generic [ref=f1e121]:
+              - paragraph [ref=f1e122]: Which PLG loops worked for top SaaS companies?
+              - paragraph [ref=f1e123]: 9 min ago
+          - button [ref=f1e126] [cursor=pointer]:
+            - generic [ref=f1e129]:
+              - paragraph [ref=f1e130]: New chat
+              - paragraph [ref=f1e131]: 16 min ago
+          - button [ref=f1e134] [cursor=pointer]:
+            - generic [ref=f1e137]:
+              - paragraph [ref=f1e138]: New chat
+              - paragraph [ref=f1e139]: 18 min ago
+          - button [ref=f1e142] [cursor=pointer]:
+            - generic [ref=f1e145]:
+              - paragraph [ref=f1e146]: New chat
+              - paragraph [ref=f1e147]: 19 min ago
+          - button [ref=f1e150] [cursor=pointer]:
+            - generic [ref=f1e153]:
+              - paragraph [ref=f1e154]: New chat
+              - paragraph [ref=f1e155]: 19 min ago
+          - button [ref=f1e158] [cursor=pointer]:
+            - generic [ref=f1e161]:
+              - paragraph [ref=f1e162]: New chat
+              - paragraph [ref=f1e163]: 23 min ago
+          - button [ref=f1e166] [cursor=pointer]:
+            - generic [ref=f1e169]:
+              - paragraph [ref=f1e170]: New chat
+              - paragraph [ref=f1e171]: 25 min ago
+          - button [ref=f1e174] [cursor=pointer]:
+            - generic [ref=f1e177]:
+              - paragraph [ref=f1e178]: New chat
+              - paragraph [ref=f1e179]: 27 min ago
+      - generic [ref=f1e25]:
+        - generic [ref=f1e26]: O
+        - generic [ref=f1e27]:
+          - paragraph [ref=f1e28]: Ollama · fredrezones55/Qwen3.5-Uncensored-HauhauCS-Aggressive:4b
+          - paragraph [ref=f1e29]: Running locally
+        - button "Settings" [ref=f1e30] [cursor=pointer]
+    - generic [ref=f1e36]:
+      - generic [ref=f1e182]:
+        - heading "Draft a Ship 30 for 30 essay on pricing tiers" [level=2] [ref=f1e183]
+        - generic [ref=f1e184]: fredrezones55/Qwen3.5-Uncensored-HauhauCS-Aggressive:4b · Standard QA
+      - generic "Chat history" [ref=f1e37]:
+        - generic [ref=f1e185]:
+          - generic [ref=f1e186]: Draft a Ship 30 for 30 essay on pricing tiers
+          - generic [ref=f1e188]:
+            - generic [ref=f1e189]: LG
+            - generic [ref=f1e190]:
+              - paragraph [ref=f1e192]: I do not have sufficient information in Lenny's podcast archive to answer this.
+              - button "Copy" [ref=f1e194] [cursor=pointer]
+          - generic [ref=f1e197]: Draft a Ship 30 for 30 essay on pricing tiers
+          - generic [ref=f1e199]:
+            - generic [ref=f1e200]: LG
+            - generic [ref=f1e201]:
+              - paragraph [ref=f1e203]: I do not have sufficient information in Lenny's podcast archive to answer this.
+              - generic [ref=f1e204]:
+                - button "Copy" [ref=f1e205] [cursor=pointer]
+                - button "Regenerate" [ref=f1e208] [cursor=pointer]
+      - generic [ref=f1e59]:
+        - generic [ref=f1e60]:
+          - textbox "Chat input" [ref=f1e61]:
+            - /placeholder: Follow up or ask a new question…
+          - generic [ref=f1e62]:
+            - generic [ref=f1e63]:
+              - button "Attach files (coming soon)" [disabled] [ref=f1e64]
+              - generic [ref=f1e67]:
+                - button "Ollama · Qwen3.5:4b" [ref=f1e211] [cursor=pointer]
+                - generic [ref=f1e73]: ·
+                - button "Standard QA" [ref=f1e75] [cursor=pointer]
+            - button "Send message" [disabled] [ref=f1e79]
+        - paragraph [ref=f1e82]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.55)
+  - alert [ref=f1e212]

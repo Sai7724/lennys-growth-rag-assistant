@@ -1,0 +1,47 @@
+- main [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: LG
+      - generic [ref=e6]:
+        - heading "Lenny Growth Assistant" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Grounded in podcast transcripts
+      - button "Close sidebar" [ref=e9]
+    - button "New chat" [ref=e12]
+    - textbox "Search conversations" [ref=e19]:
+      - /placeholder: Search conversations…
+    - generic [ref=e21]:
+      - paragraph [ref=e25]: No conversations yet
+      - paragraph [ref=e26]: Ask a question to start a chat
+    - generic [ref=e27]:
+      - generic [ref=e28]: O
+      - generic [ref=e29]:
+        - paragraph [ref=e30]: ollama
+        - paragraph [ref=e31]: Model info unavailable
+      - button "Settings" [ref=e32]
+  - generic [ref=e37]:
+    - generic "Chat history" [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - button "Open sidebar" [ref=e41]
+          - generic [ref=e43]: LG
+          - text: Lenny Growth Assistant
+        - heading "What can I help with?" [level=1] [ref=e44]
+        - paragraph [ref=e45]: Grounded answers from 200+ hours of Lenny's Podcast
+        - generic [ref=e46]:
+          - button "How did Airbnb optimize early retention?" [ref=e47]
+          - button "Which PLG loops worked for top SaaS companies?" [ref=e50]
+          - button "Draft a Ship 30 for 30 essay on pricing tiers" [ref=e53]
+          - button "Show me an HTML widget to track my North Star metric" [ref=e56]
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - textbox "Chat input" [ref=e62]:
+          - /placeholder: Ask a growth question…
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - button "Attach files (coming soon)" [disabled] [ref=e65]
+            - generic [ref=e67]:
+              - button "ollama" [ref=e69]
+              - text: ·
+              - button "Standard QA" [ref=e73]
+          - button "Send message" [disabled] [ref=e76]
+      - paragraph [ref=e78]: Enter to send · Shift+Enter for a new line · Answers are grounded in retrieved transcript chunks (similarity ≥ 0.55)

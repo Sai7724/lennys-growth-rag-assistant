@@ -1,0 +1,61 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: North Star Metric
+        - heading "Completed Orders" [level=1] [ref=e133]
+        - paragraph [ref=e8]: Paid orders delivered without issue — the moment a customer gets value.
+      - generic [ref=e9]:
+        - combobox "Metric preset" [ref=e10] [cursor=pointer]:
+          - 'option "Preset: Activated Users"'
+          - 'option "Preset: Messages Sent"'
+          - 'option "Preset: Completed Orders" [selected]'
+          - 'option "Preset: Weekly Active Users"'
+        - button "Edit" [ref=e108] [cursor=pointer]
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: "-3"
+          - generic [ref=e16]: orders
+          - generic [ref=e17]: ▲ 5.1%
+        - paragraph [ref=e18]: vs 1,248 last week · Week of Aug 31 – Sep 6
+      - generic [ref=e19]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: 0%
+          - generic [ref=e26]: of goal
+        - generic [ref=e27]: On track
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]: 12-Week Trend
+        - generic [ref=e31]:
+          - generic [ref=e32]: Weekly value
+          - generic [ref=e34]: Goal
+      - img "Trend chart of the North Star metric over 12 weeks" [ref=e36]:
+        - generic [ref=e134]: 1,620
+        - generic [ref=e135]: "754"
+        - generic [ref=e136]: Goal 1,500
+        - 'generic "Week 1: 820" [ref=e139]'
+        - 'generic "Week 2: 860" [ref=e140]'
+        - 'generic "Week 3: 905" [ref=e141]'
+        - 'generic "Week 4: 942" [ref=e142]'
+        - 'generic "Week 5: 968" [ref=e143]'
+        - 'generic "Week 6: 1,015" [ref=e144]'
+        - 'generic "Week 7: 1,060" [ref=e145]'
+        - 'generic "Week 8: 1,098" [ref=e146]'
+        - 'generic "Week 9: 1,144" [ref=e147]'
+        - 'generic "Week 10: 1,190" [ref=e148]'
+        - 'generic "Week 11: 1,248" [ref=e149]'
+        - 'generic "Week 12: 1,312" [ref=e150]'
+        - generic [ref=e151]: 1,312
+        - generic [ref=e152]: W1
+        - generic [ref=e153]: W3
+        - generic [ref=e154]: W5
+        - generic [ref=e155]: W7
+        - generic [ref=e156]: W9
+        - generic [ref=e157]: W11
+    - generic [ref=e61]:
+      - generic [ref=e62]: Projected to reach goal in ~4 weeks · data saved locally
+      - generic [ref=e63]:
+        - button "Simulate next week" [ref=e64] [cursor=pointer]
+        - button "Reset" [ref=e65] [cursor=pointer]
+  - generic: "Preset loaded: Completed Orders"

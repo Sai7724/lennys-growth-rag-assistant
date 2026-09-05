@@ -1,0 +1,59 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: North Star Metric
+      - heading "Weekly Activated Users" [level=1] [ref=e7]
+      - paragraph [ref=e8]: People who completed their first meaningful action this week.
+    - generic [ref=e9]:
+      - combobox "Metric preset" [ref=e10] [cursor=pointer]:
+        - 'option "Preset: Activated Users" [selected]'
+        - 'option "Preset: Messages Sent"'
+        - 'option "Preset: Completed Orders"'
+        - 'option "Preset: Weekly Active Users"'
+      - button "Edit" [ref=e11] [cursor=pointer]
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: "0"
+        - generic [ref=e16]: users
+        - generic [ref=e17]: ▲ 5.1%
+      - paragraph [ref=e18]: vs 671 last week · Week of Aug 31 – Sep 6
+    - generic [ref=e19]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: 0%
+        - generic [ref=e26]: of goal
+      - generic [ref=e27]: On track
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]: 12-Week Trend
+      - generic [ref=e31]:
+        - generic [ref=e32]: Weekly value
+        - generic [ref=e34]: Goal
+    - img "Trend chart of the North Star metric over 12 weeks" [ref=e36]:
+      - generic [ref=e37]: "864"
+      - generic [ref=e38]: "379"
+      - generic [ref=e39]: Goal 800
+      - 'generic "Week 1: 412" [ref=e42]'
+      - 'generic "Week 2: 438" [ref=e43]'
+      - 'generic "Week 3: 465" [ref=e44]'
+      - 'generic "Week 4: 491" [ref=e45]'
+      - 'generic "Week 5: 522" [ref=e46]'
+      - 'generic "Week 6: 540" [ref=e47]'
+      - 'generic "Week 7: 566" [ref=e48]'
+      - 'generic "Week 8: 589" [ref=e49]'
+      - 'generic "Week 9: 612" [ref=e50]'
+      - 'generic "Week 10: 640" [ref=e51]'
+      - 'generic "Week 11: 671" [ref=e52]'
+      - 'generic "Week 12: 705" [ref=e53]'
+      - generic [ref=e54]: "705"
+      - generic [ref=e55]: W1
+      - generic [ref=e56]: W3
+      - generic [ref=e57]: W5
+      - generic [ref=e58]: W7
+      - generic [ref=e59]: W9
+      - generic [ref=e60]: W11
+  - generic [ref=e61]:
+    - generic [ref=e62]: Projected to reach goal in ~4 weeks · data saved locally
+    - generic [ref=e63]:
+      - button "Simulate next week" [ref=e64] [cursor=pointer]
+      - button "Reset" [ref=e65] [cursor=pointer]
