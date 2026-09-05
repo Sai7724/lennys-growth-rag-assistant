@@ -1,0 +1,24 @@
+[services.db]
+type = "postgres"
+image = "pgvector/pgvector:pg16"
+
+[services.backend]
+type = "web"
+dockerfilePath = "backend/Dockerfile"
+dockerContext = "backend"
+startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+[services.backend.env]
+DATABASE_URL = "${{Postgres.DATABASE_URL}}"
+DEFAULT_PROVIDER = "gemini"
+GEMINI_API_KEY = "${{GEMINI_API_KEY}}"
+GLM_API_KEY = "${{GLM_API_KEY}}"
+HF_TOKEN = "${{HF_TOKEN}}"
+SIMILARITY_THRESHOLD = "0.65"
+
+[services.frontend]
+type = "web"
+dockerfilePath = "frontend/Dockerfile"
+dockerContext = "frontend"
+startCommand = "npm start"
+[services.frontend.env]
+NEXT_PUBLIC_API_URL = "${{Backend.URL}}"
