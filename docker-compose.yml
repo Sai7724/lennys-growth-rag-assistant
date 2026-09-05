@@ -31,6 +31,7 @@ services:
       TRANSCRIPTS_REPO_URL: ${TRANSCRIPTS_REPO_URL:-https://github.com/ChatPRD/lennys-podcast-transcripts.git}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GLM_API_KEY: ${GLM_API_KEY:-}
+      HF_TOKEN: ${HF_TOKEN:-}
     ports:
       - "127.0.0.1:8000:8000"
     volumes:

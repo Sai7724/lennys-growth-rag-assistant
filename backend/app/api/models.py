@@ -47,7 +47,7 @@ async def get_models() -> ModelsResponse:
         ProviderInfo(
             value="huggingface",
             label="HuggingFace",
-            model="meta-llama/Llama-3.3-70B-Instruct" if "mistralai/Mistral-7B" in settings.hf_model else settings.hf_model,
+            model=settings.hf_model,
             local=False,
             available=bool(settings.hf_token),
         ),
